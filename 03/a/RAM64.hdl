@@ -16,4 +16,65 @@ CHIP RAM64 {
 
     PARTS:
     // Put your code here:
+    Not(in=address[3], out=isZero1);
+    Not(in=address[4], out=isZero2);
+    Not(in=address[5], out=isZero3);
+    And(a=isZero1, b=isZero2, out=isZero4);
+    And(a=isZero4, b=isZero3, out=isZero);
+    And(a=isZero, b=load, out=loadZero);
+    RAM8(in=in, address=address[0..2], load=loadZero, out=outZero);
+    
+    Not(in=address[4], out=isOne2);
+    Not(in=address[5], out=isOne3);
+    And(a=address[3], b=isOne2, out=isOne4);
+    And(a=isOne4, b=isOne3, out=isOne);
+    And(a=isOne, b=load, out=loadOne);
+    RAM8(in=in, address=address[0..2], load=loadOne, out=outOne);
+    
+    Not(in=address[3], out=isTwo1);
+    Not(in=address[5], out=isTwo3);
+    And(a=isTwo1, b=address[4], out=isTwo4);
+    And(a=isTwo4, b=isTwo3, out=isTwo);
+    And(a=isTwo, b=load, out=loadTwo);
+    RAM8(in=in, address=address[0..2], load=loadTwo, out=outTwo);
+    
+    Not(in=address[5], out=isThree3);
+    And(a=address[4], b=address[3], out=isThree4);
+    And(a=isThree4, b=isThree3, out=isThree);
+    And(a=isThree, b=load, out=loadThree);
+    RAM8(in=in, address=address[0..2], load=loadThree, out=outThree);
+    
+    Not(in=address[3], out=isFour1);
+    Not(in=address[4], out=isFour2);
+    And(a=isFour1, b=isFour2, out=isFour4);
+    And(a=isZero4, b=address[5], out=isFour);
+    And(a=isFour, b=load, out=loadFour);
+    RAM8(in=in, address=address[0..2], load=loadFour, out=outFour);
+    
+    Not(in=address[4], out=isFive1);
+    And(a=isFive1, b=address[3], out=isFive4);
+    And(a=isFive4, b=address[5], out=isFive);
+    And(a=isFive, b=load, out=loadFive);
+    RAM8(in=in, address=address[0..2], load=loadFive, out=outFive);
+    
+    Not(in=address[3], out=isSix2);
+    And(a=address[4], b=isSix2, out=isSix4);
+    And(a=address[5], b=isSix4, out=isSix);
+    And(a=isSix, b=load, out=loadSix);
+    RAM8(in=in, address=address[0..2], load=loadSix, out=outSix);
+    
+    And(a=address[3], b=address[4], out=isSeven4);
+    And(a=isSeven4, b=address[5], out=isSeven);
+    And(a=isSeven, b=load, out=loadSeven);
+    RAM8(in=in, address=address[0..2], load=loadSeven, out=outSeven);
+    
+    Mux16(a=outZero , b=outOne, sel=address[3], out=outOneZero);
+    Mux16(a=outTwo, b=outThree, sel=address[3], out=outTwoThree);
+    Mux16(a=outFour, b=outFive, sel=address[3], out=outFourFive);
+    Mux16(a=outSix, b=outSeven, sel=address[3], out=outSixSeven);
+    
+    Mux16(a=outOneZero, b=outTwoThree, sel=address[4], out=outLower);
+    Mux16(a=outFourFive, b=outSixSeven, sel=address[4], out=outUpper);
+    
+    Mux16(a=outLower, b=outUpper, sel=address[5], out=out);
 }
