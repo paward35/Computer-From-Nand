@@ -40,4 +40,46 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
+    
+    //First Mux 
+    Mux16(a=instruction, b=outALU, sel=instruction[15], out=outFMux);
+    
+    Not(in=instruction[15], out=destA);
+    Xor(a=destA, b=instruction[5], out=loadA);
+    Or(a=destA, b=loadA, out=setA); 
+    //A register 
+    ARegister(in=outFMux, load=setA, out=outAReg, out[0..14]=addressM);
+    
+    //D register 
+    And(a=instruction[15], b=instruction[4], out=loadD);
+    DRegister(in=outALU, load=loadD, out=outDReg);
+    
+    //ALU
+    ALU(x=outDReg, y=outSMux, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=outM, out=outALU, zr=outALUisZero, ng=outALUisNeg);
+    
+    //Second Mux
+    Mux16(a=outAReg, b=inM, sel=instruction[12], out=outSMux);
+    
+    //Check if alu is postive
+    Not(in=outALUisNeg, out=outALUisNotNeg);
+    Not(in=outALUisZero, out=outALUisNotZero);
+    And(a=outALUisNotNeg, b=outALUisNotZero, out=outAlUPositive);
+    
+    //jump 
+    And(a=instruction[0], b=outAlUPositive, out=jumpPositive);
+    And(a=instruction[1], b=outALUisZero, out=jumpZero);
+    And(a=instruction[2], b=outALUisNeg, out=jumpNeg);
+    Or3(a=jumpPositive, b=jumpZero, c=jumpNeg, out=jmp);
+    And(a=jmp, b=instruction[15], out=jmpNow);
+    PC(in=outAReg, load=jmpNow, inc=true, reset=reset, out[0..14]=pc);
+    
+    //write m
+    And(a=instruction[3], b=instruction[15], out=writeM);
+
 }
+
+
+
+
+
+
