@@ -1,0 +1,38 @@
+Supply constant i
+push constant 7
+pop constant 7 
+
+@7 
+D=A
+@SP 
+M=A 
+A=A+1
+------------------------------------------------------------------------------
+The base addresses in the segment pointers LCL, ARG, THIS, THAT
+RAM[*segmentPointer + i]
+
+push local 7
+pop local 7
+
+push argument 7
+pop argument 7
+
+push this 7
+pop this 7
+
+push that 7
+pop that 7
+------------------------------------------------------------------------------
+accessing static i within file Foo.vm should result in accessing
+the assembly variable Foo.i
+push static 7
+pop static 7
+------------------------------------------------------------------------------
+RAM (5+i)
+push temp 7
+pop temp 7
+------------------------------------------------------------------------------
+pointer 0  -> access THIS  
+pointer 1  -> access THAT
+push pointer 0
+pop pointer 1

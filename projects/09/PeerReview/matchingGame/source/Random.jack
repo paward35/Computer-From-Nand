@@ -1,0 +1,30 @@
+class Random {
+    field int seed;
+
+    constructor Random new(int s) {
+        let seed = s;
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method int nextInt() {
+        let seed = (seed * 75 + 74) & 32766;
+        return seed;
+    }
+
+    method int nextIntInRange(int min, int max) {
+        var int num;
+        var int temp;
+        let num = nextInt();
+        let temp = max + 1 - min;
+        while ((num > temp) | (num = temp)) {
+            let num = num - temp;
+        }
+        let num = num + min;
+        return num;
+    }
+}

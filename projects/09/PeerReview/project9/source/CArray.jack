@@ -1,0 +1,118 @@
+class CArray {
+
+    function Array getArrayFromInputString(String input_string, int num_integers, String separator_string, String whitespace_string) {
+        // local variable declarations 
+        var int input_len, i, arr_index ; 
+        var String sub_string ; 
+        var char chr ; 
+        var Array arr ; 
+
+        // determining arr 
+        let arr = Array.new(num_integers);
+        let input_len = input_string.length();
+        let sub_string = String.new(input_len) ;
+        let arr_index = 0;
+        let i=0;
+        while(i<input_len){
+            let chr = input_string.charAt(i);
+            if ( chr = separator_string.charAt(0) ){
+                let arr[arr_index] = sub_string.intValue();
+                let arr_index = arr_index + 1 ;
+                do sub_string.dispose() ; // dispose previous sub_string 
+                let sub_string = String.new(input_len) ; // new empty sub_string 
+            } else {
+                if ( ~(chr = whitespace_string.charAt(0)) ) { let sub_string = sub_string.appendChar(chr); }
+            }
+            let i=i+1;
+        } 
+        // setting arr value for last integer 
+        let arr[arr_index] = sub_string.intValue();
+        do sub_string.dispose() ;     
+
+        // returning    
+        return arr ; 
+
+    }
+
+    function boolean isArrayValid(Array arr, int num_integers, int max_count){
+        var int i ; 
+
+        // max_count check 
+        if (num_integers > max_count) {
+            return false ; 
+        }
+
+        // value between 0-100 check 
+        let i = 0 ;
+        while (i<num_integers){
+            if ((arr[i] < 0) | (arr[i] > 100)){
+                return false ; 
+            }
+            let i = i + 1 ; 
+        }
+        return true; 
+    }
+
+    function void printArray(Array arr, int num_integers, boolean sorting_done){
+        var int i ; 
+
+        if (sorting_done) {
+            do Output.moveCursor(19,0) ; 
+            do Output.printString("Sorting Done !");
+            do Output.println();
+        }
+
+        do Output.moveCursor(21, 0) ; 
+        let i = 0 ; 
+        while ( i < num_integers ) {
+            do Output.printInt(arr[i]) ; 
+            do Output.printString(" ");
+            let i = i + 1 ; 
+        }
+        return ; 
+    }
+
+    function void visualize(Array arr, int num_integers){
+        // local variable declarations
+        var int x1_pa, y1_pa, x2_pa, y2_pa, x1_rect, y1_rect, x2_rect, y2_rect, i, w_rect ; // pa refers to plotting area 
+
+        // initializations 
+        let x1_pa = 100 ; 
+        let y1_pa = 100 ; 
+        let x2_pa = 400 ; 
+        let y2_pa = 200 ; 
+        let w_rect = 10 ; 
+        let x1_rect = x1_pa ; 
+        let x2_rect = x1_rect + w_rect ; 
+        let y2_rect = y2_pa ; 
+
+        // clearing plot area 
+        do Screen.setColor(false) ; // false for white color 
+        do Screen.drawRectangle(x1_pa, y1_pa, x2_pa, y2_pa) ; 
+
+        // drawing arr 
+        do Screen.setColor(true) ; // true for black color
+        let i = 0 ; 
+        while (i < num_integers) {
+            let y1_rect = y2_rect - arr[i] ; 
+            do Screen.drawRectangle(x1_rect, y1_rect, x2_rect, y2_rect) ; 
+            // new values for rect coordinates for next iteration 
+            let x1_rect = x1_rect + w_rect ; 
+            let x2_rect = x1_rect + w_rect ; 
+            // y2_rect remains same 
+            let i = i + 1 ;
+        }
+
+        return ;
+    }
+
+
+
+}
+
+
+
+
+
+
+

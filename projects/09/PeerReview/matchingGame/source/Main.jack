@@ -1,0 +1,9 @@
+class Main {
+    function void main() {
+        var MatchGame game;
+        let game = MatchGame.new();
+        do game.run();
+        do game.dispose();
+        return;
+    }
+}

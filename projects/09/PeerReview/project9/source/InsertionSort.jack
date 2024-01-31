@@ -1,0 +1,52 @@
+class InsertionSort {
+    field int i,j, num_integers, temp ;
+    field Array arr ; 
+    field boolean sorting_done ; 
+
+    constructor InsertionSort new(Array unsorted, int count){
+        let arr = unsorted ; 
+        let num_integers = count ; 
+        let i = 1 ;
+        let j = i ; 
+        let sorting_done = false ;
+        return this ; 
+    }
+
+    method int geti(){
+        return i ;
+    }
+
+    method int getj(){
+        return j ; 
+    }
+
+    method boolean sortingDone() {
+        return sorting_done ;
+    }
+
+    method Array step(){
+        if (i=num_integers){
+            let sorting_done = true ;
+            return arr ; 
+        }
+
+        if (j > 0) {
+            if ( arr[j-1] > arr[j] ) {
+                // swap element values at positions j-1 and j
+                let temp = arr[j] ; 
+                let arr[j] = arr[j-1];
+                let arr[j-1] = temp ; 
+                // decrement j 
+                let j = j - 1 ; 
+            } else {
+                let j = 0 ;
+            }
+        } else {
+            let i = i + 1 ; 
+            let j = i ; 
+        }
+
+        return arr ;
+    }
+
+}

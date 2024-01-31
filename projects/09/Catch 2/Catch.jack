@@ -1,0 +1,118 @@
+
+
+class Catch {
+   field Player player; // the square of this game
+   field boolean exit, wasCollision;       // true when the game is over
+   field int score;          // current score
+   field Array balls;
+   field Ball b1, b2, b3, b4, b5;
+
+   constructor Catch new() {
+      let player = Player.new(0, 123, 16);
+      let score = 0;
+      let balls = Array.new(5);
+      let b1 = Ball.new(253, 222, 0, 511, 0, 255);
+      let b2 = Ball.new(253, 210, 0, 511, 0, 255);
+      let b3 = Ball.new(253, 200, 0, 511, 0, 255);
+      let b4 = Ball.new(253, 190, 0, 511, 0, 255);
+      let b5 = Ball.new(253, 180, 0, 511, 0, 255);
+      let balls[0] = b1;
+      let balls[1] = b2;
+      let balls[2] = b3;
+      let balls[3] = b4;
+      let balls[4] = b5;
+      return this;
+   }
+
+   method void dispose() {
+      do player.dispose();
+      let b1 = balls[0];
+      let b2 = balls[1];
+      let b3 = balls[2];
+      let b4 = balls[3];
+      let b5 = balls[4];
+      do b1.dispose();
+      do b2.dispose();
+      do b3.dispose();
+      do b4.dispose();
+      do b5.dispose();
+      do balls.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   method void checkCatch() {
+      var int index; 
+      var Ball currentBall;
+      let index = 5;
+      while (index > 0) {
+         let index = index - 1;
+         let currentBall = balls[index];
+         let wasCollision = currentBall.checkCollision(player);
+         if (wasCollision) {
+            do currentBall.hide();
+            do currentBall.reset();
+            do keepScore();
+         }
+      }
+      return;
+   }
+
+   method void moveBalls() {
+      var int index; 
+      var Ball currentBall;
+      let index = 5;
+      while (index > 0) {
+         let index = index - 1;
+         let currentBall = balls[index];
+         do currentBall.move();
+      }
+      do Sys.wait(5);
+      return;
+   }
+
+   method void run() {
+      var char key;  
+      do Output.moveCursor(12,12);
+      do Output.printString("Catch 6 Balls! Use the arrow keys to move");
+      do Sys.wait(3000);
+      while (score < 6) {
+
+         do moveBalls();
+         // waits for a key to be pressed
+         while (key = 0) {
+            let key = Keyboard.keyPressed();
+            do moveBalls();
+            do checkCatch();
+            do Sys.wait(5);
+         }
+
+         // waits for the key to be released
+         while (~(key = 0)) {
+            let key = Keyboard.keyPressed();
+            do moveBalls();
+            do player.movePlayer(key);
+            do checkCatch();
+            do Sys.wait(5);
+         }
+
+     }
+
+     do Output.moveCursor(2,3);
+     do Output.printString("Well Done!");
+     return;
+   }
+
+   method void keepScore() {
+      if (wasCollision) {
+         let score = score + 1;
+         let wasCollision = false;
+      }
+      do Output.moveCursor(0,0);
+      do Output.printInt(score);
+   return;
+   }
+}
+
+
+

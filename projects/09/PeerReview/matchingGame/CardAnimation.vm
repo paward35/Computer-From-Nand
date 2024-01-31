@@ -1,0 +1,157 @@
+function CardAnimation.new 0
+push constant 4
+call Memory.alloc 1
+pop pointer 0
+push constant 1
+neg
+pop this 0
+push constant 0
+pop this 1
+push constant 0
+pop this 2
+push constant 0
+pop this 3
+push pointer 0
+return
+function CardAnimation.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function CardAnimation.getIsAnimating 0
+push argument 0
+pop pointer 0
+push this 1
+push this 0
+push constant 0
+lt
+not
+and
+return
+function CardAnimation.startNew 0
+push argument 0
+pop pointer 0
+push this 1
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 1
+pop this 2
+push argument 2
+pop this 3
+push argument 3
+pop this 0
+push constant 0
+not
+pop this 1
+label IF_FALSE0
+push constant 0
+return
+function CardAnimation.update 3
+push argument 0
+pop pointer 0
+push this 1
+push this 0
+push constant 0
+lt
+not
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+push argument 1
+add
+pop pointer 1
+push that 0
+pop local 2
+push local 2
+call Card.getWidth 1
+pop local 0
+push local 2
+call Card.getX 1
+pop local 1
+push this 2
+push constant 0
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+push constant 5
+sub
+pop local 0
+push local 1
+push constant 2
+add
+pop local 1
+push local 0
+push constant 0
+lt
+push local 0
+or
+push constant 0
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+pop local 0
+push constant 35
+push constant 2
+call Math.divide 2
+push this 3
+add
+pop local 1
+push local 2
+call Card.toggleIsDown 1
+pop temp 0
+push constant 35
+pop this 2
+label IF_FALSE2
+goto IF_END1
+label IF_FALSE1
+push local 0
+push constant 5
+add
+pop local 0
+push local 1
+push constant 2
+sub
+pop local 1
+push local 0
+push this 2
+gt
+push local 0
+or
+push this 2
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 2
+pop local 0
+push this 3
+pop local 1
+push constant 0
+pop this 1
+push constant 1
+neg
+pop this 0
+label IF_FALSE3
+label IF_END1
+push local 2
+push local 0
+call Card.setWidth 2
+pop temp 0
+push local 2
+push local 1
+call Card.setX 2
+pop temp 0
+label IF_FALSE0
+push constant 0
+return

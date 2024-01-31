@@ -1,0 +1,177 @@
+class Card {
+    field int x;
+    field int y;
+    field int width;
+    field int height;
+    field boolean isDown;
+    field int value;
+    field boolean isInPlay;
+
+    constructor Card new(int xPos, int yPos, int w, int h, int cardValue) {
+        let x = xPos;
+        let y = yPos;
+        let width = w;
+        let height = h;
+        let isDown = true;
+        let value = cardValue;
+        let isInPlay = true;
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method boolean getIsDown() {
+        return isDown;
+    }
+
+    method void setIsDown(boolean down) {
+        let isDown = down;
+        return;
+    }
+
+    method void toggleIsDown() {
+        let isDown = ~isDown;
+        return;
+    }
+
+    method boolean getIsInPlay() {
+        return isInPlay;
+    }
+
+    method void setIsInPlay(boolean down) {
+        let isInPlay = down;
+        return;
+    }
+
+    method void toggleIsInPlay() {
+        let isInPlay = ~isInPlay;
+        return;
+    }
+
+    method int getX() {
+        return x;
+    }
+
+    method int getY() {
+        return y;
+    }
+
+    method void setX(int xPos) {
+        let x = xPos;
+        return;
+    }
+
+    method void setY(int yPos) {
+        let y = yPos;
+        return;
+    }
+
+    method int getWidth() {
+        return width;
+    }
+
+    method void setWidth(int w) {
+        let width = w;
+        return;
+    }
+
+    method int getHeight() {
+        return height;
+    }
+
+    method void setHeight(int h) {
+        let height = h;
+        return;
+    }
+
+    method int getValue() {
+        return value;
+    }
+
+    method void setValue(int v) {
+        let value = v;
+        return;
+    }
+
+    method void render() {
+        var int left;
+        var int top;
+        var int right;
+        var int bottom;
+
+        let left = x;
+        let top = y;
+        let right = x + width;
+        let bottom = y + height;
+
+        if ((right > left) & (bottom > top)) {
+            if (isDown) {
+                do drawRectangle(left, top, right, bottom);
+            } else {
+                do drawRectangleOutline(left, top, right, bottom, 2);
+                do drawValue();
+            }
+        }
+        return;
+    }
+
+    method void drawRectangleOutline(int left, int top, int right, int bottom, int thickness) {
+        do drawRectangle(left, top, right, top + thickness);
+        do drawRectangle(right - thickness, top + thickness, right, bottom);
+        do drawRectangle(left, bottom - thickness, right - thickness, bottom);
+        do drawRectangle(left, top + thickness, left + thickness, bottom - thickness);
+        return;
+    }
+
+    method void drawRectangle(int left, int top, int right, int bottom) {
+        if ((right > left) & (bottom > top) & (left > 0) & (top > 0) & (right < 512) & (height < 256)) {
+            do Screen.drawRectangle(left, top, right, bottom);
+        }
+        return;
+    }
+
+    method void drawValue() {
+        var int left;
+        var int top;
+        var int right;
+        var int bottom;
+        var int size;
+        let size = 5;
+        if ((value = 1) | (value = 3) | (value = 5)) {
+            let left = x + ((width - size) / 2);
+            let top = y + ((height - size) / 2);
+            let right = left + size;
+            let bottom = top + size;
+            do drawRectangle(left, top, right, bottom);
+        }
+        if (value > 1) {
+            let left = x + ((width / 2 - size) / 2);
+            let top = y + ((height / 2 - size) / 2);
+            let right = left + size;
+            let bottom = top + size;
+            do drawRectangle(left, top, right, bottom);
+            let left = left + (width / 2);
+            let top = top + (height / 2);
+            let right = left + size;
+            let bottom = top + size;
+            do drawRectangle(left, top, right, bottom);
+        }
+        if (value > 3) {
+            let left = x + ((width / 2 - size) / 2);
+            let left = left + (width / 2);
+            let top = y + ((height / 2 - size) / 2);
+            let right = left + size;
+            let bottom = top + size;
+            do drawRectangle(left, top, right, bottom);
+            let left = x + ((width / 2 - size) / 2);
+            let top = top + (height / 2);
+            let right = left + size;
+            let bottom = top + size;
+            do drawRectangle(left, top, right, bottom);
+        }
+        return;
+    }
+}

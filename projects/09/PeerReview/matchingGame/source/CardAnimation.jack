@@ -1,0 +1,66 @@
+class CardAnimation {
+    field int targetCardIndex;
+    field boolean isAnimating;
+    field int targetWidth;
+    field int startingX;
+
+    constructor CardAnimation new() {
+        let targetCardIndex = -1;
+        let isAnimating = false;
+        let targetWidth = 0;
+        let startingX = 0;
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method boolean getIsAnimating() {
+        return ((isAnimating) & ~(targetCardIndex < 0));
+    }
+
+    method void startNew(int tw, int x, int i) {
+        if (~isAnimating) {
+            let targetWidth = tw;
+            let startingX = x;
+            let targetCardIndex = i;
+            let isAnimating = true;
+        }
+        return;
+    }
+
+    method void update(Array cards) {
+        var int newWidth;
+        var int newX;
+        var Card card;
+        if ((isAnimating) & ~(targetCardIndex < 0)) {
+            let card = cards[targetCardIndex];
+            let newWidth = card.getWidth();
+            let newX = card.getX();
+            if (targetWidth = 0) {
+                let newWidth = newWidth - 5;
+                let newX = newX + 2;
+                if (newWidth < 0 | newWidth = 0) {
+                    let newWidth = 0;
+                    let newX = (35 / 2) + startingX;
+                    do card.toggleIsDown();
+                    let targetWidth = 35;
+                }
+            } else {
+                let newWidth = newWidth + 5;
+                let newX = newX - 2;
+                if (newWidth > targetWidth | newWidth = targetWidth) {
+                    let newWidth = targetWidth;
+                    let newX = startingX;
+                    let isAnimating = false;
+                    let targetCardIndex = -1;
+                }
+            }
+            do card.setWidth(newWidth);
+            do card.setX(newX);
+        }
+        return;
+    }
+}

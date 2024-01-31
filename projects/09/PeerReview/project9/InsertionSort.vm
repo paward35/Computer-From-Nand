@@ -1,0 +1,118 @@
+function InsertionSort.new 0
+push constant 6
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 4
+push argument 1
+pop this 2
+push constant 1
+pop this 0
+push this 0
+pop this 1
+push constant 0
+pop this 5
+push pointer 0
+return
+function InsertionSort.geti 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function InsertionSort.getj 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function InsertionSort.sortingDone 0
+push argument 0
+pop pointer 0
+push this 5
+return
+function InsertionSort.step 0
+push argument 0
+pop pointer 0
+push this 0
+push this 2
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+pop this 5
+push this 4
+return
+label IF_FALSE0
+push this 1
+push constant 0
+gt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 1
+push constant 1
+sub
+push this 4
+add
+pop pointer 1
+push that 0
+push this 1
+push this 4
+add
+pop pointer 1
+push that 0
+gt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 1
+push this 4
+add
+pop pointer 1
+push that 0
+pop this 3
+push this 1
+push this 4
+add
+push this 1
+push constant 1
+sub
+push this 4
+add
+pop pointer 1
+push that 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push this 1
+push constant 1
+sub
+push this 4
+add
+push this 3
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push this 1
+push constant 1
+sub
+pop this 1
+goto IF_END2
+label IF_FALSE2
+push constant 0
+pop this 1
+label IF_END2
+goto IF_END1
+label IF_FALSE1
+push this 0
+push constant 1
+add
+pop this 0
+push this 0
+pop this 1
+label IF_END1
+push this 4
+return

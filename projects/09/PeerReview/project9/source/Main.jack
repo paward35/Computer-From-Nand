@@ -1,0 +1,76 @@
+/*
+This program visualizes the "Insertion Sort" sorting algorithm
+*/
+class Main {
+
+    function void main(){
+        var String input_string, separator_string, whitespace_string ;
+        var int num_integers, max_count ; 
+        var Array arr ;
+        var boolean input_valid ; 
+        var InsertionSort isort ; 
+
+        // initializations
+        let separator_string  = "," ; 
+        let whitespace_string = " " ;  
+        let max_count = 30 ; 
+
+        // user input 
+        let input_valid = false ;
+        while (~input_valid){
+            let input_string = Keyboard.readLine("Enter list of numbers (max 30 integers) between 0-100 to sort separated by commas: ") ; 
+            let num_integers = Main.getNumIntegersFromInputString(input_string, separator_string) ; 
+            let arr   = CArray.getArrayFromInputString(input_string, num_integers, separator_string, whitespace_string) ;
+            let input_valid = CArray.isArrayValid(arr, num_integers, max_count) ; 
+            if (input_valid){
+                do Output.printString("Number of input integers: ");
+                do Output.printInt(num_integers);
+                do Output.println();                
+            } else { 
+                do Screen.clearScreen();
+                do Output.moveCursor(0,0);
+                do Output.printString("Please enter valid input");
+                do Output.println();
+             }
+        }
+
+        // sort and visualize
+        let isort = InsertionSort.new(arr, num_integers) ; 
+        while( ~isort.sortingDone() ) {
+            let arr = isort.step() ; 
+            do CArray.visualize(arr, num_integers) ; 
+            do CArray.printArray(arr, num_integers, false) ; 
+            do Sys.wait(300) ;
+        }
+
+        // sorting done 
+        do CArray.visualize(arr, num_integers) ; 
+        do CArray.printArray(arr, num_integers, true) ; 
+
+        return ; 
+    }
+
+    function int getNumIntegersFromInputString(String input_string, String separator_string) {
+        // local variable declarations 
+        var int input_len, i, num_separators, num_integers ; 
+        var char chr ; 
+
+        // initializations 
+        let input_len  = input_string.length();
+        let i = 0 ;
+        let num_separators = 0 ;
+
+        // finding num_separators
+        while(i<input_len){
+            let chr = input_string.charAt(i);
+            if ( chr = separator_string.charAt(0) ) { let num_separators = num_separators+1 ; }
+            let i=i+1;
+        }
+
+        // num_integers
+        let num_integers = num_separators + 1 ;        
+
+        return num_integers ; 
+    }
+
+}

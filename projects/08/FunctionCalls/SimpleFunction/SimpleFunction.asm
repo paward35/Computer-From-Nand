@@ -1,0 +1,117 @@
+(SimpleFunction.test)//{'code': ['function', 'SimpleFunction.test', '2'], 'file': 'SimpleFunction', 'num': '6'}
+@SP
+M=M+1
+A=M-1
+M=0
+@SP
+M=M+1
+A=M-1
+M=0
+@LCL   //{'code': ['push', 'local', '0'], 'file': 'SimpleFunction', 'num': '7'}
+D=M
+@0
+A=D+A
+D=M
+@SP
+M=M+1
+A=M-1
+M=D
+@LCL   //{'code': ['push', 'local', '1'], 'file': 'SimpleFunction', 'num': '8'}
+D=M
+@1
+A=D+A
+D=M
+@SP
+M=M+1
+A=M-1
+M=D
+@SP  //add
+M=M-1
+A=M
+D=M
+@SP
+A=M-1
+M=D+M
+@SP  //{op}
+A=M-1
+M=!M
+@ARG   //{'code': ['push', 'argument', '0'], 'file': 'SimpleFunction', 'num': '11'}
+D=M
+@0
+A=D+A
+D=M
+@SP
+M=M+1
+A=M-1
+M=D
+@SP  //add
+M=M-1
+A=M
+D=M
+@SP
+A=M-1
+M=D+M
+@ARG   //{'code': ['push', 'argument', '1'], 'file': 'SimpleFunction', 'num': '13'}
+D=M
+@1
+A=D+A
+D=M
+@SP
+M=M+1
+A=M-1
+M=D
+@SP  //sub
+M=M-1
+A=M
+D=M
+@SP
+A=M-1
+M=M-D
+@LCL  //{'code': ['return'], 'file': 'SimpleFunction', 'num': '15'}
+D=M
+@FRAME
+M=D
+@5
+D=D-A
+A=D
+D=M
+@RET
+M=D
+@SP  
+M=M-1
+A=M
+D=M
+@ARG
+A=M
+M=D
+@ARG
+D=M+1
+@SP
+M=D
+@FRAME
+M=M-1
+A=M
+D=M
+@THAT
+M=D
+@FRAME
+M=M-1
+A=M
+D=M
+@THIS
+M=D
+@FRAME
+M=M-1
+A=M
+D=M
+@ARG
+M=D
+@FRAME
+M=M-1
+A=M
+D=M
+@LCL
+M=D
+@RET
+A=M
+0;JMP

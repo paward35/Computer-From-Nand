@@ -1,0 +1,57 @@
+// The SIR model. See the README for more references on the theory.
+
+
+class SIR {
+    field int trans;    // the transmission rate
+    field int recov;    // the recovery rate
+    field int S, I, R;  // the number of susceptible, infected and recovered people
+
+
+    // Constructor of a new SIR model
+    constructor SIR new(int tr, int re, int s, int i, int r) {
+        let trans = tr;
+        let recov = re;
+        let S = s;
+        let I = i;
+        let R = r;
+        return this;
+    }
+
+    // Accessors
+    method int gettrans() {return trans; }
+    method int getrecov() {return recov; }
+    method int getS() {return S; }
+    method int getI() {return I; }
+    method int getR() {return R; }
+
+    // do a single time step
+    method SIR timestep(int t) {
+        var int S0, I0, R0;     
+        var int dS, dI, dR;
+        var int N;
+
+        // Safe the current values
+        let S0 = S;
+        let I0 = I;
+        let R0 = R;
+        let N = S + I + R; // a normalization term
+
+        // the differential equations
+        let dS = -((trans * I * S) / N);
+        let dI = ((trans * I * S) / N)  - (recov * I);
+        let dR = recov * I;
+
+
+        // Update values
+        let S = S + dS;
+        let I = I + dI;
+        let R = R + dR;
+
+        // draw the updates
+        do Screen.drawLine(10 + (t * 50), 245 - (2*S0), 10 + ((t + 1) * 50), 245 - (2*S));
+        do Screen.drawLine(10 + (t * 50), 245 - (2*I0), 10 + ((t + 1) * 50), 245 - (2*I));
+        do Screen.drawLine(10 + (t * 50), 245 - (2*R0), 10 + ((t + 1) * 50), 245 - (2*R));
+        
+        return SIR.new(trans, recov, S, I, R);
+    }
+}
