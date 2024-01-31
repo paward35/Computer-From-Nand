@@ -33,7 +33,6 @@ class Tokenizer:
     def getTokenValue(self):
         return self.current_token_xml.text
 
-
     def get_next_token_value(self):
         next_token = self.tokens[1]
         next_token_xml = ET.XML(next_token)
